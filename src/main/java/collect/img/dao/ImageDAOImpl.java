@@ -1,18 +1,13 @@
 package collect.img.dao;
 
-import collect.img.model.Img;
+import collect.img.model.Images;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository("ImgDAO")
 @Transactional
@@ -26,32 +21,34 @@ public class ImgDAOImpl  implements ImgDAO {
     }
 
     @Override
-    public List<Img> allImgs() {
+    public List<Images> allImgs() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Img").list();
+        return session.createQuery("from Images").list();
     }
 
     @Override
-    public void add(Img img) {
+    public void add(Images img) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(img);
     }
 
     @Override
-    public void delete(Img img) {
+    public void delete(Images img) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(img);
     }
 
     @Override
-    public void edit(Img img) {
+    public void edit(Images img) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(img);
+           session.update(img);
+
+
     }
 
     @Override
-    public Img getById(int id) {
+    public Images getById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.get(Img.class, id);
+        return session.get(Images.class, id);
     }
 }
