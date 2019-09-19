@@ -1,4 +1,4 @@
-package collect.img.config;
+package collect.image.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

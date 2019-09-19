@@ -1,30 +1,27 @@
-package collect.img.controller;
+package collect.image.controller;
 
-import collect.img.model.Img;
-import collect.img.service.ImgService;
-import collect.img.service.ImgServiceImpl;
+import collect.image.model.Images;
+import collect.image.model.Tags;
+import collect.image.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
 public class ImgController {
-     private ImgService imgService ;
+     private ImageService imgService ;
 
     @Autowired
-    public void setFilmService(ImgService imgService) {
+    public void setImgService(ImageService imgService) {
         this.imgService = imgService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView allImgs() {
-        List<Img> imgs = imgService.allImgs();
+        List<Images> imgs = imgService.allImgs();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("imgs");
         modelAndView.addObject("imgsList", imgs);
@@ -40,7 +37,7 @@ public class ImgController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editPage(@PathVariable("id") int id) {
-        Img img = imgService.getById(id);
+        Images img = imgService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
         modelAndView.addObject("img", img);
@@ -49,7 +46,7 @@ public class ImgController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView editImg(@ModelAttribute("img") Img img) {
+    public ModelAndView editImg(@ModelAttribute("img") Images img) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
         imgService.edit(img);
@@ -64,7 +61,7 @@ public class ImgController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addImg(@ModelAttribute("img") Img img) {
+    public ModelAndView addImg(@ModelAttribute("img") Images img) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
         imgService.add(img);
@@ -75,8 +72,22 @@ public class ImgController {
     public ModelAndView deleteImg(@PathVariable("id") int id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
-        Img img = imgService.getById(id);
+        Images img = imgService.getById(id);
         imgService.delete(img);
         return modelAndView;
+    }
+
+    @RequestMapping(value="/assignedTags/{id}", method = RequestMethod.GET)
+    public ModelAndView assignedTags(@PathVariable("id") int id) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<Tags> tags = imgService.getTagsById(id);
+        modelAndView.setViewName("tags");
+        modelAndView.addObject("tagsList", tags);
+        return modelAndView;
+    }
+
+    @RequestMapping("*")
+    @ResponseBody
+    public String fallbackMethod(){return "Opps! There is nothing here.";
     }
 }

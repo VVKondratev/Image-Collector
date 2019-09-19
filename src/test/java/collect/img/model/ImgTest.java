@@ -1,4 +1,4 @@
-package collect.img.model;
+package collect.image.model;
 
 public class ImgTest {
 

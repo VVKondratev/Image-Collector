@@ -1,7 +1,8 @@
-package collect.img.service;
+package collect.image.service;
 
-import collect.img.model.Images;
-import collect.img.dao.ImgDAO;
+import collect.image.model.Images;
+import collect.image.dao.ImageDAO;
+import collect.image.model.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +10,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service("SessionFactory")
-public class ImgServiceImpl implements ImgService {
-    private ImgDAO imgDAO;
+public class ImageServiceImpl implements ImageService {
+    private ImageDAO imgDAO;
 
     @Autowired
-    public void setImgDAO(ImgDAO imgDAO) {
+    public void setImgDAO(ImageDAO imgDAO) {
         this.imgDAO = imgDAO;
     }
 
@@ -41,5 +42,9 @@ public class ImgServiceImpl implements ImgService {
     @Override
     public Images getById(int id) {
         return imgDAO.getById(id);
+    }
+
+    @Override
+    public List<Tags> getTagsById(int id) { return imgDAO.getTagsById(id);
     }
 }

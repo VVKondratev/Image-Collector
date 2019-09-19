@@ -1,29 +1,34 @@
-package collect.img.model;
+package collect.image.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
-@Getter @Setter
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
 @Entity
-@Table(name = "imgs")
-public class Img {
+@Table(name = "image")
+public class Images {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private int id;
 
-
-    @Column(name = "tags")
-    private String tags;
-
-
     @Column(name = "title")
     private String title;
 
+    @Column(name = "url")
+    private String url;
 
-    @Column(name = "pathorurl")
-    private String pathorurl;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "image_tag", joinColumns = @JoinColumn(name = "image_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tags> tags = new ArrayList<>();
+
+
+
+
+
 
 }

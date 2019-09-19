@@ -1,6 +1,7 @@
-package collect.img.dao;
+package collect.image.dao;
 
-import collect.img.model.Images;
+import collect.image.model.Images;
+import collect.image.model.Tags;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository("ImgDAO")
+@Repository("ImageDAO")
 @Transactional
-public class ImgDAOImpl  implements ImgDAO {
+public class ImageDAOImpl implements ImageDAO {
 
     private SessionFactory sessionFactory;
 
@@ -42,13 +43,17 @@ public class ImgDAOImpl  implements ImgDAO {
     public void edit(Images img) {
         Session session = sessionFactory.getCurrentSession();
            session.update(img);
-
-
     }
 
     @Override
     public Images getById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Images.class, id);
+    }
+
+    @Override
+    public List<Tags> getTagsById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Images.class, id).getTags();
     }
 }
